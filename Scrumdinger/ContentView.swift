@@ -10,10 +10,30 @@ import SwiftUI
 struct ContentView: View {
     var body: some View {
         VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundStyle(.tint)
-            Text("Hello, world!")
+            ProgressView(value: 10, total: 15)
+            
+            HStack {
+                VStack(alignment: .leading) {
+                    Text("Seconds Elapsed")
+                    Label("300", systemImage: "hourglass.tophalf.fill")
+                }
+                Spacer()
+                VStack(alignment: .trailing) {
+                    Text("Seconds Remaining")
+                    Label("600", systemImage: "hourglass.bottomhalf.fill")
+                }
+            }
+            
+            Circle()
+                .strokeBorder(lineWidth: 24)
+            
+            HStack {
+                Text("Speaker 1 of 3")
+                Spacer()
+                Button(action: {}) {
+                    Image(systemName: "forward.fill")
+                }
+            }
         }
         .padding()
     }
