@@ -12,7 +12,7 @@ struct CardView: View {
     let scrum: DailyScrum
     
     var body: some View {
-        VStack(alignment: .leading, spacing: 10) {
+        VStack(alignment: .leading) {
             Text("\(scrum.title)")
                 .font(.headline)
             Spacer()
@@ -20,6 +20,7 @@ struct CardView: View {
                 Label("\(scrum.attendees.count)", systemImage: "person.3")
                 Spacer()
                 Label("\(scrum.lengthInMinutes)", systemImage: "clock")
+                    .padding(.trailing, 20)
 //                HStack {
 //                    Image(systemName: "person.3")
 //                    Text("\(scrum.attendees.count)")
@@ -30,8 +31,10 @@ struct CardView: View {
 //                    Text("\(scrum.lengthInMinutes)")
 //                }
             }
+            .font(.caption)
         }
         .padding()
+        .foregroundStyle(scrum.theme.accentColor)
     }
 }
 
