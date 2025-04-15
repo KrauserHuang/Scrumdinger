@@ -14,9 +14,22 @@
 		4FC482152DAA359E003C9FAA /* Scrumdinger.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Scrumdinger.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		4FA99ABA2DAF0DEC00D7B911 /* Exceptions for "Scrumdinger" folder in "Scrumdinger" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Resources/ThemeKit,
+			);
+			target = 4FC482142DAA359E003C9FAA /* Scrumdinger */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
+
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		4FC482172DAA359E003C9FAA /* Scrumdinger */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				4FA99ABA2DAF0DEC00D7B911 /* Exceptions for "Scrumdinger" folder in "Scrumdinger" target */,
+			);
 			path = Scrumdinger;
 			sourceTree = "<group>";
 		};
