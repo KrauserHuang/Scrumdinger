@@ -1,5 +1,5 @@
 //
-//  ContentView.swift
+//  MeetingView.swift
 //  Scrumdinger
 //
 //  Created by Tai Chin Huang on 2025/4/12.
@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct ContentView: View {
+struct MeetingView: View {
     var body: some View {
         VStack {
             ProgressView(value: 10, total: 15)
@@ -44,5 +44,5 @@ struct ContentView: View {
 }
 
 #Preview {
-    ContentView()
+    MeetingView()
 }
