@@ -11,17 +11,17 @@ import TimerKit
 
 struct MeetingHeaderView: View {
     
-    let secondsElapsed: Int
-    let secondsRemaining: Int
+    let secondsElapsed: Int     // 已經過秒數
+    let secondsRemaining: Int   // 剩餘秒數
     let theme: Theme
     
-    private var totalSeconds: Int {
+    private var totalSeconds: Int { // 總時間
         secondsElapsed + secondsRemaining
     }
     
     private var progress: Double {
         guard totalSeconds > 0 else { return 1 }
-        return Double(secondsElapsed) / Double(secondsRemaining)
+        return Double(secondsElapsed) / Double(totalSeconds)
     }
     
     private var minutesRemaining: Int {
