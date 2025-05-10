@@ -7,11 +7,14 @@
 
 import SwiftUI
 import TimerKit
+import AVFoundation
 
 struct MeetingView: View {
     
     @Binding var scrum: DailyScrum
     @State var scrumTimer = ScrumTimer()
+    
+    private let player = AVPlayer.dingPlayer()  // extension from AVPlayer
     
     var body: some View {
         ZStack {
@@ -34,6 +37,9 @@ struct MeetingView: View {
         .foregroundStyle(scrum.theme.accentColor)
         .onAppear {
             scrumTimer.reset(lengthInMinutes: scrum.lengthInMinutes, attendeeNames: scrum.attendees.map { $0.name })
+            scrumTimer.speakerChangedAction = {
+                player.seek(to: .zero)  // make sure player always play at the beginning
+            }
             scrumTimer.startScrum()
         }
         .onDisappear {
