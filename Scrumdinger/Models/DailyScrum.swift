@@ -7,10 +7,23 @@
 
 import Foundation
 import ThemeKit
+import SwiftData
 
-struct DailyScrum: Identifiable {
-    let id: UUID
+@Model
+class DailyScrum: Identifiable {
+    var id: UUID
     var title: String
+    /*
+     SwiftData property wrapper that define relationship between models
+     deleteRule(刪除規則)
+     .cascade: 級聯刪除，DailyScrum刪除時，刪除所有相關的Attendee
+     .nullify: 設為nil，DailyScrum刪除時，Attendee的dailyScrum屬性設為nil
+     .deny   : 拒絕刪除，如果DailyScrum還有Attendee，則不允許刪除
+     .noAction: 無動作，不做任何處理
+     inverse(反向關係)
+     Attendee有dailyScrum的屬性指向DailyScrum
+     */
+    @Relationship(deleteRule: .cascade, inverse: \Attendee.dailyScrum)
     var attendees: [Attendee]
     var lengthInMinutes: Int
     var lengthInMinutesAsDouble: Double {
@@ -18,6 +31,8 @@ struct DailyScrum: Identifiable {
         set { lengthInMinutes = Int(newValue) }
     }
     var theme: Theme
+    
+    @Relationship(deleteRule: .cascade, inverse: \History.dailyScrum)
     var history: [History] = []
     
     init(id: UUID = UUID(), title: String, attendees: [String], lengthInMinutes: Int, theme: Theme) {
@@ -26,21 +41,5 @@ struct DailyScrum: Identifiable {
         self.attendees = attendees.map { Attendee(name: $0) }
         self.lengthInMinutes = lengthInMinutes
         self.theme = theme
-    }
-}
-
-extension DailyScrum {
-    struct Attendee: Identifiable {
-        let id: UUID
-        var name: String
-        
-        init(id: UUID = UUID(), name: String) {
-            self.id = id
-            self.name = name
-        }
-    }
-    
-    static var emptyScrum: DailyScrum {
-        DailyScrum(title: "", attendees: [], lengthInMinutes: 5, theme: .sky)
     }
 }
