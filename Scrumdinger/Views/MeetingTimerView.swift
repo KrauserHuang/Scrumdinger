@@ -30,6 +30,17 @@ struct MeetingTimerView: View {
                 .accessibilityElement(children: .combine)   // 合併子元素，VoiceOver使用者會聽到：“Cathy is speaking”(一次性)
                 .foregroundStyle(theme.accentColor)
             }
+            .overlay {
+                ForEach(speakers) { speaker in
+                    if speaker.isCompleted, let index = speakers.firstIndex(where: { $0.id == speaker.id }) {
+                        SpeakerArc(speakerIndex: index, totalSpeakers: speakers.count)
+                            .rotation(Angle(degrees: -90))
+//                            .stroke(theme.mainColor, lineWidth: 12) // 繪製輪廓線
+                            .stroke(theme.mainColor, style: StrokeStyle(lineWidth: 12, lineCap: .round))    // 邊邊變圓弧(但兩個SpeakerArc會黏在一起)
+                    }
+                }
+            }
+            .padding(.horizontal)
     }
 }
 
