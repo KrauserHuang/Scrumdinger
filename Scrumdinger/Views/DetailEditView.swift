@@ -17,6 +17,7 @@ struct DetailEditView: View {
     @State private var lengthInMinutesAsDouble: Double
     @State private var attendees: [Attendee]
     @State private var theme: Theme
+    @State private var errorWrapper: ErrorWrapper?
     @Environment(\.dismiss) private var dismiss
     /*
      @Environment: SwiftUI的property wrapper，用於存取環境變數
@@ -91,14 +92,24 @@ struct DetailEditView: View {
             }
             ToolbarItem(placement: .confirmationAction) {
                 Button("Done") {
-                    saveEdits()
-                    dismiss()
+                    do {
+                        try saveEdits()
+                        dismiss()
+                    } catch {
+                        errorWrapper = ErrorWrapper(error: error, guidance: "Daily scrum was not recorded. Try again later.")
+                    }
                 }
             }
         }
+        .sheet(item: $errorWrapper) {
+            dismiss()
+        } content: { wrapper in
+            ErrorView(errorWrapper: wrapper)
+        }
     }
     
-    private func saveEdits() {
+    // TODO: - 還是不懂加了throws後為什麼context.save()可以從try?變成try
+    private func saveEdits() throws {
         scrum.title = title
         scrum.lengthInMinutesAsDouble = lengthInMinutesAsDouble
         scrum.attendees = attendees
@@ -108,7 +119,7 @@ struct DetailEditView: View {
             context.insert(scrum)
         }
         
-        try? context.save()
+        try context.save()
     }
 }
 

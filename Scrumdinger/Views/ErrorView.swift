@@ -10,22 +10,33 @@ import SwiftUI
 struct ErrorView: View {
     
     let errorWrapper: ErrorWrapper
+    @Environment(\.dismiss) private var dismiss
     
     var body: some View {
-        VStack {
-            Text("An error has occurred!")
-                .font(.title)
-                .padding(.bottom)
-            Text(errorWrapper.error.localizedDescription)
-                .font(.headline)
-            Text(errorWrapper.guidance)
-                .font(.caption)
-                .padding(.top)
-            Spacer()
+        NavigationStack {
+            VStack {
+                Text("An error has occurred!")
+                    .font(.title)
+                    .padding(.bottom)
+                Text(errorWrapper.error.localizedDescription)
+                    .font(.headline)
+                Text(errorWrapper.guidance)
+                    .font(.caption)
+                    .padding(.top)
+                Spacer()
+            }
+            .padding()
+            .background(.ultraThinMaterial)
+            .cornerRadius(16)
+            .toolbar {
+                // navigationBarTrailing will be deprecated(14.0-18.5), use topBarTrailing instead
+                ToolbarItem(placement: .topBarTrailing) {
+                    Button("Dismiss") {
+                        dismiss()
+                    }
+                }
+            }
         }
-        .padding()
-        .background(.ultraThinMaterial)
-        .cornerRadius(16)
     }
 }
 

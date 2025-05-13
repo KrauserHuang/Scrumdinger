@@ -13,6 +13,7 @@ struct MeetingView: View {
     
     let scrum: DailyScrum
     @State var scrumTimer = ScrumTimer()
+    @Binding var errorWrapper: ErrorWrapper?
     @Environment(\.modelContext) private var context
     
     private let player = AVPlayer.dingPlayer()  // extension from AVPlayer
@@ -32,7 +33,6 @@ struct MeetingView: View {
                 MeetingFooterView(speakers: scrumTimer.speakers,
                                   skipAction: scrumTimer.skipSpeaker)
             }
-//            .padding()
         }
         .padding()
         .foregroundStyle(scrum.theme.accentColor)
@@ -40,7 +40,11 @@ struct MeetingView: View {
             startScrum()
         }
         .onDisappear {
-            endScrum()
+            do {
+                try endScrum()
+            } catch {
+                errorWrapper = ErrorWrapper(error: error, guidance: "Meeting time was not recorded. Try again later.")
+            }
         }
         .navigationBarTitleDisplayMode(.inline) // .inline「內嵌標題」& .large「大型標題」
     }
@@ -53,16 +57,16 @@ struct MeetingView: View {
         scrumTimer.startScrum()
     }
     
-    private func endScrum() {
+    private func endScrum() throws {
         scrumTimer.stopScrum()
         // meeting結束時，建立新的history並加進該scrum的history參數
         let newHistory = History(attendees: scrum.attendees)
         scrum.history.insert(newHistory, at: 0)
-        try? context.save()
+        try context.save()
     }
 }
 
 #Preview {
     let scrum = DailyScrum.sampleData[0]
-    MeetingView(scrum: scrum)
+    MeetingView(scrum: scrum, errorWrapper: .constant(nil))
 }
