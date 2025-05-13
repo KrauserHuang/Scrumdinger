@@ -6,15 +6,17 @@
 //
 
 import SwiftUI
+import SwiftData
 
 @main
 struct ScrumdingerApp: App {
     
-    @State private var scrums = DailyScrum.sampleData
-    
     var body: some Scene {
         WindowGroup {
-            ScrumsView(scrums: $scrums)
+            ScrumsView()
         }
+        // sets the model container in this scene
+        // 設定資料儲存容器(資料庫初始化)，來管理SwiftData的資料持久化
+        .modelContainer(for: DailyScrum.self)
     }
 }

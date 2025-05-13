@@ -11,8 +11,9 @@ import AVFoundation
 
 struct MeetingView: View {
     
-    @Binding var scrum: DailyScrum
+    let scrum: DailyScrum
     @State var scrumTimer = ScrumTimer()
+    @Environment(\.modelContext) private var context
     
     private let player = AVPlayer.dingPlayer()  // extension from AVPlayer
     
@@ -57,10 +58,11 @@ struct MeetingView: View {
         // meeting結束時，建立新的history並加進該scrum的history參數
         let newHistory = History(attendees: scrum.attendees)
         scrum.history.insert(newHistory, at: 0)
+        try? context.save()
     }
 }
 
 #Preview {
-    @Previewable @State var scrum = DailyScrum.sampleData[0]
-    MeetingView(scrum: $scrum)
+    let scrum = DailyScrum.sampleData[0]
+    MeetingView(scrum: scrum)
 }
